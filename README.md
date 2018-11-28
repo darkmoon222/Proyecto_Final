@@ -1,6 +1,7 @@
 
 ### Nombre del grupo:
-Noxway
+Noxway 
+#####(poner imagen del logo del grupo)
 
 ### Participantes:
 * Roger Cladellas Cruz
