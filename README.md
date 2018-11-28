@@ -20,3 +20,7 @@ Este es nuestro proyecto final del grado.
 
 Para más información, os invitamos a visitar la wiki del proyecto. 
 *If you want more information, we recommend you to visit the project's wiki.*
+
+#### Roger Cladelles:
+
+#### Carla Cubells: 
