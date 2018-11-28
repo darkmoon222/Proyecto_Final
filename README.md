@@ -21,6 +21,6 @@ Este es nuestro proyecto final del grado.
 *Hello everyone, we are Roger Cladellas and Carla Cubells, a group of students from a Game Design and Development Degree. This is our final degree project.*
 
 Para más información, os invitamos a visitar la wiki del proyecto. 
-*If you want more information, we recommend you to visit the project's wiki [https://github.com/darkmoon222/Proyecto_Final/wiki].*
+*If you want more information, we recommend you to visit the project's [wiki] (https://github.com/darkmoon222/Proyecto_Final/wiki).*
 
 
