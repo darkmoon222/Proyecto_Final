@@ -14,4 +14,4 @@ Eres un hombre llamado Wang, que vive en la antigua China. Hasta que un día un 
 ### Contacto / Contact: 
 Hola a todos, somos Roger Cladellas y Carla Cubells, un grupo de estudiantes de grado superior de Desenvolupamiento de Videojuegos. Este es nuestro proyecto de final del grado.
 
-[wiki] (https://github.com/darkmoon222/Proyecto_Final/wiki)
+[wiki](https://github.com/darkmoon222/Proyecto_Final/wiki)
