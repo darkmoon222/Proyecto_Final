@@ -1,21 +1,36 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class InputManager : MonoBehaviour
 {
     private Player player;
+    private GameManager gameManager;
+    private HUD hud;
 
 	// Use this for initialization
 	void Start ()
     {
         player = GameObject.FindGameObjectWithTag("Player").GetComponent<Player>();
         player.Walk();
+        hud = GameObject.FindGameObjectWithTag("hud").GetComponent<HUD>();
+        gameManager = GameObject.FindGameObjectWithTag("manager").GetComponent<GameManager>();
 	}
 	
 	// Update is called once per frame
 	void Update ()
     {
+        if((Input.GetKeyDown(KeyCode.P)) || (Input.GetKeyDown(KeyCode.Escape)))
+        {
+            if(gameManager.gamePaused) gameManager.Resume();
+            else gameManager.Pause();
+            
+        }
+
+        if(gameManager.gamePaused) return;
+        
+        
         float axisH = Input.GetAxis("Horizontal");
 
         player.SetAxis(axisH);
@@ -45,6 +60,15 @@ public class InputManager : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.F10))
         {
             player.ActivateGodMode();
+        }
+
+        if (Input.GetKey(KeyCode.F))
+        {
+            player.MirrorUp();
+        }
+        else
+        {
+            player.MirrorDown();
         }
     }
 }

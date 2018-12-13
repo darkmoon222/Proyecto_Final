@@ -20,7 +20,7 @@ public class TitleButtons : MonoBehaviour
 	
 	public void StartGame()
 	{
-		SceneManager.LoadScene(2);
+		SceneManager.LoadScene("Prototipe");
 	}
 
 	public void ExitGame()

@@ -17,5 +17,6 @@ public class PlayerCollision : MonoBehaviour {
         {
             gameManager.WinState();
         }
+
     }
 }

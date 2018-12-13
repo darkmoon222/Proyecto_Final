@@ -9,6 +9,14 @@ public class WinGameOver : MonoBehaviour
 
 	public void LoadScene(int numScene)
 	{
-		SceneManager.LoadScene(numScene);
+        Time.timeScale = 1;
+
+        SceneManager.LoadScene(numScene);
+
 	}
+
+    public void ExitGame()
+    {
+        Application.Quit();
+    }
 }

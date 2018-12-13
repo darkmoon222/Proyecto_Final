@@ -4,6 +4,11 @@ using UnityEngine;
 
 public class Player : PhysicsCollision
 {
+
+    // AL HACER DOBLE SALTO TE CAES AL VACIO WTF D: retocar eso. 
+
+    // hacer un trigger collider de death zone, 6/12/18
+
     [Header("Permissions")]
     //bool -> boleano puede ser true o false
     private bool jump;
@@ -35,11 +40,28 @@ public class Player : PhysicsCollision
 
     private bool godMode;
 
+    private Energy energy;
+
+    private GameManager manager;
+
+    private bool mirrorUp;
+
+    public AudioSource jumpSound;
+    public AudioSource energyUPSound;
+    public AudioSource runSound;
+
     protected override void Start()
     {
         base.Start();
 
         collider = GetComponent<Collider2D>();
+
+        energy = GameObject.FindGameObjectWithTag("hud").GetComponentInChildren<Energy>();
+
+        manager = GameObject.FindGameObjectWithTag("manager").GetComponent<GameManager>();
+
+        /*jumpSound = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();
+        energyUPSound = GameObject.FindGameObjectWithTag("Player").GetComponent<AudioSource>();*/
     }
 
     protected override void FixedUpdate()
@@ -59,7 +81,7 @@ public class Player : PhysicsCollision
             {
                 jump = false;
                 doublejump = false;
-
+                
             }
 
             rb.velocity = new Vector3(xVelocity, rb.velocity.y, 0);
@@ -78,7 +100,7 @@ public class Player : PhysicsCollision
         // si esta mirando para un lado y se mueve para el otro gira (flip)
         if ((isFacingRight && axis < 0) || (!isFacingRight && axis > 0)) Flip();
 
-        xVelocity = axis * speed;
+        xVelocity = axis * speed; // aun no hemos perdido te puedes mover, pero una vez hayas perdido no te podras mover.
 
         // Si estamos en el modo dios, volamos!!
         if (godMode)
@@ -92,7 +114,7 @@ public class Player : PhysicsCollision
             if ((axis > 0 && isFacingRight) || (axis < 0 && !isFacingRight)) xVelocity = 0;
         }
 
-        Debug.Log(rb.velocity);
+        //Debug.Log(rb.velocity);
     }
 
     protected override void Flip()
@@ -119,6 +141,8 @@ public class Player : PhysicsCollision
         jumpReleased = false;
         jumpPressedTime = Time.time;
         Jump(jumpForce);
+
+        jumpSound.Play();
     }
 
     public void ReleaseJump()
@@ -131,6 +155,8 @@ public class Player : PhysicsCollision
     {
         speed = runspeed;
         jumpForce = runjump;
+        
+        //runSound.Play();
     }
 
     public void Walk()
@@ -142,6 +168,31 @@ public class Player : PhysicsCollision
     public void SetAxis(float h)
     {
         axis = h;
+
+        if (Mathf.Abs(h) != 0)
+        {
+            if (isGrounded && !runSound.isPlaying)
+            {
+                runSound.Play();
+                Debug.Log(runSound.isPlaying);
+            }
+            else
+                runSound.Stop();
+        }
+        else
+        {
+            runSound.Stop();
+        }
+    }
+
+    public void MirrorUp()
+    {
+        mirrorUp = true;
+    }
+
+    public void MirrorDown()
+    {
+        mirrorUp = false;
     }
 
     public void Fly(float v)
@@ -175,4 +226,61 @@ public class Player : PhysicsCollision
             godMode = false;
         }
     }
+
+    private void OnTriggerEnter2D (Collider2D collision) 
+    {
+        if ((collision.tag == "enemy") || (collision.tag == "ghostEnemy"))
+        {
+            //Debug.Log("Me han echo pupa");
+
+            energy.Damage(); // ahora si me golpean me quitara vida el max de seis golpes y si llega a zero  muero
+
+
+        }
+
+        if(collision.tag == "deathZone")
+        {
+            //Debug.Log("Me he caido D:");
+
+            manager.LessLife();
+            
+        }
+
+        if (collision.tag == "energyUP")
+        {
+            //Debug.Log("Me han echo pupa");
+
+            energy.IniBar(); // ahora si me golpean me quitara vida el max de seis golpes y si llega a zero  muero
+
+            energyUPSound.Play();
+
+
+        }
+    }
+
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.CompareTag("Bullet"))
+        {
+            Enemy2Bullet go = collision.gameObject.GetComponent<Enemy2Bullet>();
+
+            //go.InvertDirection();// cuando colisione con el player tendira que dar media vuelta.
+            if (mirrorUp)
+            {
+                go.InvertDirection();
+
+                //Debug.Log("Revota");
+            }
+            else
+            {
+                energy.Damage();
+                go.Destroied();
+
+                //Debug.Log("No rebota");
+            }
+        }
+        
+    }
+
+
 }
